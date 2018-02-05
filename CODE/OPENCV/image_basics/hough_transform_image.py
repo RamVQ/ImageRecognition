@@ -1,8 +1,13 @@
 import cv2 as cv
 import numpy as np
+import matplotlib
+matplotlib.use('Qt5Agg')
+import matplotlib.pyplot as plt
 
 img = cv.imread('../../../IMAGES/hough_input.png')
-gray = cv.cvtColor(img,cv2.COLOR_BGR2GRAY)
+img_org = cv.imread('../../../IMAGES/hough_input.png')
+
+gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
 edges = cv.Canny(gray,50,150,apertureSize = 3)
 
 lines = cv.HoughLines(edges,1,np.pi/180,200)
@@ -18,5 +23,6 @@ for rho,theta in lines[0]:
 
     cv.line(img,(x1,y1),(x2,y2),(0,0,255),2)
 
-cv.imwrite('hough_result.jpg',img)
-
+plt.subplot(121),plt.imshow(img_org),plt.title('Input')
+plt.subplot(122),plt.imshow(img),plt.title('Output')
+plt.show()
